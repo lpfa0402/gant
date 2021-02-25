@@ -1,0 +1,78 @@
+<!--
+ * @Author: Lpf
+ * @Date: 2021-02-25 10:46:00
+ * @LastEditTime: 2021-02-25 14:42:51
+ * @Description: 
+-->
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Basic initialization</title>
+	<script src="../../codebase/dhtmlxgantt.js?v=5.2.0"></script>
+	<link rel="stylesheet" href="../../codebase/dhtmlxgantt.css?v=5.2.0">
+	<script src="../common/testdata.js?v=5.2.0"></script>
+	<style>
+		html, body {
+			height: 100%;
+			padding: 0px;
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+<div id="gantt_here" style='width:100%; height:100%;'></div>
+<script>
+/**
+ * @description: 
+ * @param {
+ * 	data: {
+ * 		id： (string, number) 任务id
+ * 		start_date： (Date) 任务开始日期 
+ * 		text： (string) 任务描述 
+ * 		progress： (number) 任务完成度，0到1
+ * 		duration： (number) 在当前时间刻度下的任务持续周期 
+ * 		open: (Boolean)是否展开进度
+ * 		parent: (number)不加默认是任务， 加的话对应的是任务的id，写谁的id 就是那个任务的子集
+ * 		type: (string) 任务类型 可选项： project， task, milestone
+ * 	}
+ * 	links: {
+ * 		id: (string, number) 关联线id 
+ * 		source: (number) 数据源任务的id , 对应的是data内的id，相当于线条开始的位置
+ * 		target: (number) 目标源任务的id ，对应的是data内的id，相当于线条结束的位置
+ * 		type: (number) 关联线类型：0 - “结束到开始”，1 - “开始到开始”，2 - “结束到结束” 
+ * 	}
+ * }
+ * @return {*}
+*/
+	var tasks = {
+		data: [
+			{
+				id: 1, text: "Project #2", start_date: "01-04-2018", duration: 19, order: 5,
+				progress: 0.5, open: true, 
+			},
+			{
+				id: 2, text: "Task #1", start_date: "02-04-2018", duration: 8, order: 10,
+				parent: 1,
+			},
+			{
+				id: 3, text: "Task #2", start_date: "11-04-2018", duration: 8, order: 20,
+				progress: 0.6, parent: 1
+			},
+			{
+				id: 4, text: "Task #2", start_date: "11-04-2018", duration: 8, order: 20,
+				progress: 0.6, parent: 1, type: 'milestone'
+			},
+		],
+		links: [
+			{id: 2, source: 1, target: 2, type: "1"},
+			{id: 3, source: 2, target: 3, type: "0"},
+			{id: 4, source: 3, target: 4, type: "0"}
+		]
+	};
+
+	gantt.init("gantt_here");
+	gantt.parse(tasks);
+
+</script>
+</body>
